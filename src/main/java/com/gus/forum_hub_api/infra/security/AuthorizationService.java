@@ -1,4 +1,4 @@
-package com.gus.forum_hub_api.services;
+package com.gus.forum_hub_api.infra.security;
 
 import com.gus.forum_hub_api.domain.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
