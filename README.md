@@ -1,9 +1,18 @@
 # 📚 FórumHub API - Spring Boot
 
-Uma API REST para gerenciamento de **cursos**, **tópicos** e **respostas** com autenticação JWT.  
-Projeto didático / produção leve com controle de acesso por papéis (USER / ADMIN).
+[![Java](https://img.shields.io/badge/Java-21-blue?logo=openjdk)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0-green?logo=springboot)](https://spring.io/projects/spring-boot)
+[![JWT](https://img.shields.io/badge/JWT-Security-orange?logo=jsonwebtokens)](https://jwt.io)
+[![Maven](https://img.shields.io/badge/Maven-Build-red?logo=apachemaven)](https://maven.apache.org/)
+[![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
-<!-- PART 1/4 - cole as partes na ordem 1 -> 4 -->
+---
+
+## 📖 Sobre o Projeto
+
+API REST para um **fórum de cursos**, onde usuários podem registrar, criar tópicos, responder, atualizar e deletar conteúdo, com autenticação via **JWT** e controle de permissões via **Spring Security**.
+
+---
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -13,6 +22,8 @@ Projeto didático / produção leve com controle de acesso por papéis (USER / A
 - Spring Data JPA / Hibernate
 - Banco de dados: H2 / MySQL / PostgreSQL (configurável)
 - Maven
+
+---
 
 ## 📂 Estrutura (resumo)
 
@@ -61,6 +72,8 @@ src/main/java/com/seuprojeto/
 └── Application.java (main)
 ```
 
+---
+
 ## 🔐 Autenticação
 
 - A API usa JWT. O fluxo é:
@@ -69,7 +82,9 @@ src/main/java/com/seuprojeto/
     3. Inclua no header:
        Authorization: Bearer SEU_TOKEN_AQUI
 
-## 📌 Endpoints Principais (resumo)
+---
+
+## 📌 Endpoints e Modelos de Requisição
 
 ### Autenticação
 | Método | Endpoint           | Descrição |
@@ -77,8 +92,9 @@ src/main/java/com/seuprojeto/
 | POST   | /auth/register     | Registra novo usuário |
 | POST   | /auth/login        | Faz login e retorna token |
 
-Exemplo registro:
-POST /auth/register
+**Exemplo registro:**
+
+`POST /auth/register`
 
 ```json
 {
@@ -88,9 +104,9 @@ POST /auth/register
 }
 ```
 
-Exemplo login:
-POST /auth/login
+**Exemplo login:**
 
+`POST /auth/login`
 
 ```json
 {
@@ -116,6 +132,28 @@ Resposta de login:
 | PUT    | /cursos/{id}       | ADMIN     |
 | DELETE | /cursos/{id}       | ADMIN     |
 
+**Criar Curso**
+
+`POST /cursos`
+
+```json
+{
+"nome": "string",
+"categoria": "string"  // Exemplo: "JAVA", "SPRING_BOOT", etc. ->CONFERIR O ENUM CATEGORIA<-
+}
+```
+
+**Atualizar Curso**
+
+`PUT /cursos/{id}`
+
+```json
+{
+"nome": "string",
+"categoria": "string"
+}
+```
+
 ### Tópicos
 | Método | Endpoint              | Permissão |
 |--------|-----------------------|-----------|
@@ -124,6 +162,31 @@ Resposta de login:
 | POST   | /topicos              | Usuário autenticado |
 | PUT    | /topicos/{id}         | Autor do tópico |
 | DELETE | /topicos/{id}         | Autor ou ADMIN |
+
+**Criar Tópico**
+
+`POST /topicos`
+
+```json
+{
+"titulo": "string",
+"mensagem": "string",
+"idCurso": 1
+}
+```
+
+**Atualizar Tópico**
+
+`PUT /topicos/{id}`
+
+```json
+{
+"titulo": "string",
+"mensagem": "string",
+"idCurso": 1,
+"status": "string"  // "RESOLVIDO", "ABERTO" ou "FECHADO".
+}
+```
 
 ### Respostas
 | Método | Endpoint                                              | Permissão |
@@ -135,6 +198,28 @@ Resposta de login:
 | GET    | /respostas                                            | Público   |
 | GET    | /respostas/{id}                                       | Público   |
 
+**Criar Resposta**
+
+`POST /topicos/{id}/respostas`
+
+```json
+{
+"mensagem": "string"
+}
+```
+
+**Atualizar Resposta**
+
+`PUT /topicos/{id}/respostas/{idResposta}`
+
+```json
+{
+"mensagem": "string"
+}
+```
+
+---
+
 ## 🛡️ Controle de acesso
 - Usuário comum:
     - Criar tópicos e respostas
@@ -142,6 +227,8 @@ Resposta de login:
 - Administrador (ROLE_ADMIN):
     - Criar/editar/excluir cursos
     - Excluir qualquer tópico ou resposta
+
+---
 
 ## ⚙️ Configuração e execução
 
